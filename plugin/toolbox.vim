@@ -9,11 +9,12 @@ vim.current.buffer[:] = vimtoolbox.fmt(
     )
 
 EOF
+
 endfunction
 
 command! PrettyFormat call Pretty_format()
 
-command! -bar TurnOnScratchBuffer setlocal buftype=nofile bufhidden=hide noswapfile
+command! -bar TurnOnScratchBuffer setlocal buflisted buftype=nofile bufhidden=hide noswapfile filetype=rst
 command! -bar TurnOffScratchBuffer setlocal buftype= bufhidden= swapfile
 command! -bar NewScratch new | TurnOnScratchBuffer
 
@@ -23,7 +24,6 @@ augroup scratch_buffers
     autocmd VimEnter *
         \   if @% == '' && &buftype == ''
         \ |     TurnOnScratchBuffer
-        \ |     setlocal filetype=rst
         \ | endif
     autocmd BufWritePost * ++nested
         \   if (empty(bufname()) || bufname() == '-stdin-') && &buftype == 'nofile'
